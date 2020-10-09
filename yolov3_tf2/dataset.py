@@ -1,6 +1,7 @@
 import tensorflow as tf
 from absl.flags import FLAGS
 
+
 @tf.function
 def transform_targets_for_output(y_true, grid_size, anchor_idxs):
     # y_true: (N, boxes, (x1, y1, x2, y2, class, best_anchor))
@@ -27,7 +28,7 @@ def transform_targets_for_output(y_true, grid_size, anchor_idxs):
                 box_xy = (y_true[i][j][0:2] + y_true[i][j][2:4]) / 2
 
                 anchor_idx = tf.cast(tf.where(anchor_eq), tf.int32)
-                grid_xy = tf.cast(box_xy // (1/grid_size), tf.int32)
+                grid_xy = tf.cast(box_xy // (1 / grid_size), tf.int32)
 
                 # grid[y][x][anchor] = (tx, ty, bw, bh, obj, class)
                 indexes = indexes.write(
@@ -134,7 +135,7 @@ def load_fake_dataset():
     x_train = tf.expand_dims(x_train, axis=0)
 
     labels = [
-        [0.18494931, 0.03049111, 0.9435849,  0.96302897, 0],
+        [0.18494931, 0.03049111, 0.9435849, 0.96302897, 0],
         [0.01586703, 0.35938117, 0.17582396, 0.6069674, 56],
         [0.09158827, 0.48252046, 0.26967454, 0.6403017, 67]
     ] + [[0, 0, 0, 0, 0]] * 5
